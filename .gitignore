@@ -1,6 +1,7 @@
 *.yaml
 .idea/
 venv/
+config/last_ids.txt
 
 
 __pycache__/

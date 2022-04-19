@@ -1,6 +1,5 @@
-import logging
-
 from lib.status_code_handler import RequestAndHandle
+import logging
 import time
 
 
@@ -18,16 +17,20 @@ class Wallapop:
         self.max_sale_price = max_price
         self.min_sale_price = min_price
 
-        self.delay = 3
+        self.delay = 5
 
     def search_products(self, url: str, old_products: set) -> dict:
         """ Search products given URL """
         new_products = dict()
-        for step in range(0, 11):
+        for step in range(0, 20):
             time.sleep(self.delay)
 
             response = RequestAndHandle(url + "&step={}".format(step))
             response_json = response.check_json_response()
+
+            if not response_json:
+                logging.warning("Step {}".format(step))
+                return new_products
 
             new_products = self.get_web_slug_price(response_json,
                                                    new_products,
@@ -36,17 +39,14 @@ class Wallapop:
         return new_products
 
     @staticmethod
-    def get_web_slug_price(response_js, products_info, old_products):
+    def get_web_slug_price(response, products_info, old_products):
         """ Given a response, save to dict id -> (web_slug, price) """
-        if response_js and len(response_js.get('search_objects')) != 0:
-            for product in response_js.get('search_objects'):
+        if response and len(response.get('search_objects')) != 0:
+            for product in response.get('search_objects'):
                 if not product.get('id') in old_products:
                     # Compare if item is in old item saved, due to sort by time
                     products_info[product.get('id')] = \
                         (product.get('web_slug'), product.get('price'))
-                else:
-                    logging.warning("[-] Last item found ")
-                    return products_info
 
         return products_info
 

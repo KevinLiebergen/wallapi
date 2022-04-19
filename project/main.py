@@ -47,7 +47,7 @@ def load_saved_products() -> set:
     if os.path.exists(path):
         last_ids_fd = open(path, 'r')
         for id in last_ids_fd.readlines():
-            last_ids.add(id[:-2])
+            last_ids.add(id.strip())
 
     return last_ids
 
