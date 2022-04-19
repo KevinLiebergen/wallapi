@@ -39,22 +39,38 @@ def cli(search, filters, longitude, latitude, order, teleg,
     main(wallapop, telegram)
 
 
-def load_products():
+def load_saved_products() -> set:
     """ Load saved products """
-    # TODO
-    return dict()
+    last_ids = set()
+    path = os.path.join(script_dir, 'config/last_ids.txt')
+
+    if os.path.exists(path):
+        last_ids_fd = open(path, 'r')
+        for id in last_ids_fd.readlines():
+            last_ids.add(id[:-2])
+
+    return last_ids
+
+
+def save_products(new_products: dict):
+    """ Save new products found """
+    path = os.path.join(script_dir, 'config/last_ids.txt')
+    last_ids_fd = open(path, 'a')
+    for product_id in new_products.keys():
+        last_ids_fd.write("{}\n".format(product_id))
 
 
 def main(walla, telegram):
     """ Search products and print them out """
     url = walla.generate_url()
-    saved_products = load_products()
-    products = walla.search_products(url, saved_products)
+    old_products = load_saved_products()
+    new_products = walla.search_products(url, old_products)
+    save_products(new_products)
 
     if telegram:
-        telegram.send_messages(products.values())
+        telegram.send_messages(new_products.values())
     else:
-        print(products)
+        print(new_products)
 
 
 if __name__ == '__main__':
