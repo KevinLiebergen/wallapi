@@ -1,2 +1,2 @@
-# wallapapi
+# wallapi
 Wallapop Crawler using API
