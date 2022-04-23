@@ -1,4 +1,4 @@
-from lib.status_code_handler import RequestAndHandle
+from request_handler import RequestHandler
 import logging
 import time
 
@@ -14,18 +14,18 @@ class Wallapop:
         self.latitude = latitude
         self.longitude = longitude
         self.order_by = order
-        self.max_sale_price = max_price
         self.min_sale_price = min_price
+        self.max_sale_price = max_price
 
         self.delay = 5
 
     def search_products(self, url: str, old_products: set) -> dict:
         """ Search products given URL """
         new_products = dict()
-        for step in range(0, 20):
+        for step in range(0, 16):
             time.sleep(self.delay)
 
-            response = RequestAndHandle(url + "&step={}".format(step))
+            response = RequestHandler(url + "&step={}".format(step))
             response_json = response.check_json_response()
 
             if not response_json:

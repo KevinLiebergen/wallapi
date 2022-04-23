@@ -1,5 +1,6 @@
-from lib.wallapop import Wallapop
-from lib.telegram import Telegram
+from lib import Telegram
+from lib import Wallapop
+
 import click
 import os
 

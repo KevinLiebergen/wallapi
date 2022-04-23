@@ -1,7 +1,8 @@
 *.yaml
+*.swp
 .idea/
 venv/
-config/last_ids.txt
+*last_ids.txt
 
 
 __pycache__/
