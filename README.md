@@ -1,6 +1,6 @@
-# wallapi
+# Wallapi
 
-Wallapop Crawler using the API and send URLs in your Telegram channel group,
+Definitive Wallapop Crawler using the API and send URLs in your Telegram channel group,
 additionaly you can add the command in your cron file to specify when to search.
 
 The search saves the URL ids, for later in another search, not resend the same 
