@@ -1,5 +1,8 @@
 # Wallapi
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 Definitive Wallapop Crawler using the API and send URLs in your Telegram channel group,
 additionaly you can add the command in your cron file to specify when to search.
 
