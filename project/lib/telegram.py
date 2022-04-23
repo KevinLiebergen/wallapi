@@ -4,12 +4,19 @@ import time
 import yaml
 
 
-def _greet(file):
-    logging.warning("[-] Reading Telegram config file from {} ".format(file))
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
+                    level=logging.WARNING,
+                    datefmt='%Y-%m-%d %H:%M:%S')
+
+
+def _greet(file: str):
+    logging.info("[-] Reading Telegram config file from "
+                     "{} ".format(file))
 
 
 class Telegram:
     def __init__(self, path):
+
         with open(path) as yaml_file:
             _greet(yaml_file.name)
 
@@ -31,7 +38,7 @@ class Telegram:
                                                                  self.item_url +
                                                                  message[0]))
             except telebot.apihelper.ApiTelegramException:
-                logging.warning("A request to the Telegram API was "
-                                "unsuccessful. Error code: 429. Description: "
-                                "Too Many Requests")
+                self.logger.warning("A request to the Telegram API was "
+                                    "unsuccessful. Error code: 429. "
+                                    "Description: Too Many Requests")
                 time.sleep(self.delay_error)

@@ -1,8 +1,13 @@
 from lib import Telegram
 from lib import Wallapop
-
+import logging
 import click
 import os
+
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 default_filter = "seo_landing"
 default_lat = "40.4893538"
@@ -67,6 +72,8 @@ def main(walla, telegram):
     old_products = load_saved_products()
     new_products = walla.search_products(url, old_products)
     save_products(new_products)
+
+    logging.warning("{} new products found".format(len(new_products)))
 
     if telegram:
         telegram.send_messages(new_products.values())

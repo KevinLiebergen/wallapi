@@ -2,6 +2,10 @@ from request_handler import RequestHandler
 import logging
 import time
 
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
+                    level=logging.INFO,
+                    datefmt='%Y-%m-%d %H:%M:%S')
+
 
 class Wallapop:
     """ Wallapop Wrapper for search and return all products from query """
@@ -29,7 +33,7 @@ class Wallapop:
             response_json = response.check_json_response()
 
             if not response_json:
-                logging.warning("Step {}".format(step))
+                logging.warning("Step {} failed".format(step))
                 return new_products
 
             new_products = self.get_web_slug_price(response_json,
