@@ -12,6 +12,7 @@ logging.basicConfig(
 default_filter = "seo_landing"
 default_lat = "40.4893538"
 default_long = "-3.6827461"
+default_distance = "600000"
 default_order = "newest"
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -26,16 +27,18 @@ default_telegram_file = os.path.join(script_dir, 'config/telegram.yaml')
               help="Longitude to search, default={}".format(default_long))
 @click.option('-latitude', default=default_lat,
               help="Latitude to search, default={}".format(default_lat))
+@click.option('-distance', default=default_distance,
+              help="Distance to search, default={}".format(default_distance))
 @click.option('-order', default=default_order,
               help="Order mode. Default {}".format(default_order))
 @click.option('-min-price', required=False, help="Min price to search")
 @click.option('-max-price', required=False, help="Max price to search")
 @click.option('-teleg', required=False, default=default_telegram_file,
               help="Telegram config file")
-def cli(search, filters, longitude, latitude, order, teleg,
+def cli(search, filters, longitude, latitude, distance, order, teleg,
         min_price=None, max_price=None):
     """ Parameter handler, create objects and pass them to main """
-    wallapop = Wallapop(search, filters, latitude, longitude, order, min_price,
+    wallapop = Wallapop(search, filters, latitude, longitude, distance, order, min_price,
                         max_price)
     if teleg:
         telegram = Telegram(teleg)

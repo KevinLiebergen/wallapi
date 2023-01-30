@@ -10,13 +10,14 @@ logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
 class Wallapop:
     """ Wallapop Wrapper for search and return all products from query """
 
-    def __init__(self, search, filters, latitude, longitude, order,
-                 min_price, max_price):
+    def __init__(self, search, filters, latitude, longitude, distance, 
+                 order, min_price, max_price):
         self.base_url = "https://api.wallapop.com/api/v3/general/search"
         self.keywords = search
         self.filters = filters
         self.latitude = latitude
         self.longitude = longitude
+        self.distance = distance 
         self.order_by = order
         self.min_sale_price = min_price
         self.max_sale_price = max_price
@@ -61,12 +62,15 @@ class Wallapop:
                "&filters_source={filters}" \
                "&latitude={latitude}" \
                "&longitude={longitude}" \
-               "&order_by={order}".format(base=self.base_url,
+               "&order_by={order}" \
+               "&distance={distance}".format(base=self.base_url,
                                           keywords=self.keywords,
                                           filters=self.filters,
                                           latitude=self.latitude,
                                           longitude=self.longitude,
-                                          order=self.order_by)
+                                          order=self.order_by,
+                                          distance=self.distance
+                                          )
 
         if self.min_sale_price:
             url += "&min_sale_price={}".format(self.min_sale_price)

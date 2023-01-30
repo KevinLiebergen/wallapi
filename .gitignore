@@ -3,6 +3,7 @@
 .idea/
 venv/
 *last_ids.txt
+cron.log
 
 
 __pycache__/
